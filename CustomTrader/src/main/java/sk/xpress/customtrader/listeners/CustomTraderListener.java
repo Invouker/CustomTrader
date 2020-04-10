@@ -28,13 +28,13 @@ public class CustomTraderListener implements Listener {
         new BukkitRunnable() {
             public void run() {
                 List<MerchantRecipe> recipes2 = new ArrayList<MerchantRecipe>(villager.getRecipes());
-                ItemStack outPostMap = getExplorerMap(villager,StructureType.PILLAGER_OUTPOST);
-                ItemStack swampHutMap = getExplorerMap(villager, StructureType.SWAMP_HUT);
+                ItemStack outPostMap = new ItemBuilder(getExplorerMap(villager,StructureType.PILLAGER_OUTPOST)).setName("§ePillager outpost Explorer map").build();
+                ItemStack swampHutMap = new ItemBuilder(getExplorerMap(villager, StructureType.SWAMP_HUT)).setName("§eSwamp hut explorer map").build();
                 recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(), outPostMap));
                 recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(22).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  swampHutMap));
 
                 if(villager.getWorld().getEnvironment() == World.Environment.NETHER) {
-                    recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  getExplorerMap(villager, StructureType.NETHER_FORTRESS)));
+                    recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  new ItemBuilder(getExplorerMap(villager, StructureType.NETHER_FORTRESS)).setName("§eFortress Explorer map").build()));
                 }
                 villager.setRecipes(recipes2);
             }
