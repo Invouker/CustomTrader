@@ -1,0 +1,6 @@
+name: CustomTrader
+version: ${project.version}
+main: sk.xpress.customtrader.Main
+api-version: 1.13
+authors: [XpresS]
+description: Custom trader
