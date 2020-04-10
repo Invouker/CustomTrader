@@ -5,7 +5,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import sk.xpress.customtrader.listeners.CustomTraderListener;
-
 public final class Main extends JavaPlugin {
 
     private static Plugin instance;
