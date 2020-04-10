@@ -31,15 +31,14 @@ public class CustomTraderListener implements Listener {
                 List<MerchantRecipe> recipes2 = new ArrayList<MerchantRecipe>(villager.getRecipes());
 
                 if(villager.getWorld().getEnvironment() == World.Environment.NETHER) {
-
                     ItemStack netherFortressMap = new ItemBuilder(getExplorerMap(villager, StructureType.NETHER_FORTRESS)).setName("§eFortress Explorer map").build();
-                    if(netherFortressMap.getType() == Material.AIR) recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  netherFortressMap ));
+                    recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  netherFortressMap ));
 
                 }else if(villager.getWorld().getEnvironment() == World.Environment.NORMAL){
                     ItemStack outPostMap = new ItemBuilder(getExplorerMap(villager,StructureType.PILLAGER_OUTPOST)).setName("§ePillager outpost Explorer map").build();
                     ItemStack swampHutMap = new ItemBuilder(getExplorerMap(villager, StructureType.SWAMP_HUT)).setName("§eSwamp hut explorer map").build();
-                    if(outPostMap.getType() == Material.AIR) recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(), outPostMap));
-                    if(swampHutMap.getType() == Material.AIR) recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(22).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  swampHutMap));
+                    recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(), outPostMap));
+                    recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(22).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  swampHutMap));
 
                 }
                 villager.setRecipes(recipes2);
@@ -48,8 +47,6 @@ public class CustomTraderListener implements Listener {
     }
 
     private ItemStack getExplorerMap(Entity ent, StructureType type){
-        if(ent == null || ent.getWorld() == null || ent.getLocation() == null)
-            return new ItemStack(Material.STICK);
         return Bukkit.getServer().createExplorerMap(ent.getWorld(), ent.getLocation(), type, 15000, false);
     }
 
