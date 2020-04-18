@@ -1,15 +1,12 @@
 package sk.xpress.customtrader.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.StructureType;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.VillagerCareerChangeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.scheduler.BukkitRunnable;
 import sk.xpress.customtrader.Main;
@@ -30,11 +27,10 @@ public class CustomTraderListener implements Listener {
             public void run() {
                 List<MerchantRecipe> recipes2 = new ArrayList<MerchantRecipe>(villager.getRecipes());
 
-                if(villager.getWorld().getEnvironment() == World.Environment.NETHER) {
+             if(villager.getWorld().getEnvironment() == World.Environment.NORMAL){
                     ItemStack netherFortressMap = new ItemBuilder(getExplorerMap(villager, StructureType.NETHER_FORTRESS)).setName("§eFortress Explorer map").build();
                     recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  netherFortressMap ));
 
-                }else if(villager.getWorld().getEnvironment() == World.Environment.NORMAL){
                     ItemStack outPostMap = new ItemBuilder(getExplorerMap(villager,StructureType.PILLAGER_OUTPOST)).setName("§ePillager outpost Explorer map").build();
                     ItemStack swampHutMap = new ItemBuilder(getExplorerMap(villager, StructureType.SWAMP_HUT)).setName("§eSwamp hut explorer map").build();
                     recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(), outPostMap));
@@ -47,6 +43,11 @@ public class CustomTraderListener implements Listener {
     }
 
     private ItemStack getExplorerMap(Entity ent, StructureType type){
+        if(type == StructureType.NETHER_FORTRESS) {
+            Location loc = ent.getLocation();
+            loc.setWorld(Bukkit.getWorld("skyblock_nether"));
+            return Bukkit.getServer().createExplorerMap(loc.getWorld(), loc, type, 15000, false);
+        }
         return Bukkit.getServer().createExplorerMap(ent.getWorld(), ent.getLocation(), type, 15000, false);
     }
 
