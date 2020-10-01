@@ -9,10 +9,12 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemBuilder {
     private ItemStack is;
@@ -94,6 +96,43 @@ public class ItemBuilder {
         is.removeEnchantment(ench);
         return this;
     }
+
+    /**
+     * Adds selected ItemFlag on the item
+     *
+     * @param flag selected ItemFlag
+     */
+    @NotNull
+    public ItemBuilder addItemFlag(@NotNull ItemFlag flag)
+    {
+        ItemMeta im = is.getItemMeta();
+        if (im == null)
+            return this;
+
+        im.addItemFlags(flag);
+        is.setItemMeta(im);
+        return this;
+    }
+
+    /**
+     * Hides all ItemFlags on the item
+     *
+     * @return ItemBuilder
+     */
+    @NotNull
+    public ItemBuilder hideAllFlags()
+    {
+        ItemMeta im = is.getItemMeta();
+        if (im == null)
+            return this;
+
+        for (ItemFlag flag : ItemFlag.values())
+            im.addItemFlags(flag);
+
+        is.setItemMeta(im);
+        return this;
+    }
+
     /**
      * Set the skull owner for the item. Works on skulls only.
      * @param owner The name of the skull's owner.

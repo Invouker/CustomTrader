@@ -14,9 +14,11 @@ import sk.xpress.customtrader.handlers.ItemBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class CustomTraderListener implements Listener {
+
+
+
     @EventHandler
     private void onVillagerCareerChangeEvent(VillagerCareerChangeEvent e){
         final Villager villager = e.getEntity();
@@ -28,19 +30,22 @@ public class CustomTraderListener implements Listener {
                 List<MerchantRecipe> recipes2 = new ArrayList<MerchantRecipe>(villager.getRecipes());
 
              if(villager.getWorld().getEnvironment() == World.Environment.NORMAL){
-                    ItemStack netherFortressMap = new ItemBuilder(getExplorerMap(villager, StructureType.NETHER_FORTRESS)).setName("§eFortress Explorer map").build();
+                   /* ItemStack netherFortressMap = new ItemBuilder(getExplorerMap(villager, StructureType.NETHER_FORTRESS)).setName("§eFortress Explorer map").build();
                     recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  netherFortressMap ));
 
                     ItemStack outPostMap = new ItemBuilder(getExplorerMap(villager,StructureType.PILLAGER_OUTPOST)).setName("§ePillager outpost Explorer map").build();
                     ItemStack swampHutMap = new ItemBuilder(getExplorerMap(villager, StructureType.SWAMP_HUT)).setName("§eSwamp hut explorer map").build();
                     recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(), outPostMap));
                     recipes2.add(createCustomTrade(new ItemBuilder(Material.EMERALD).setAmount(22).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(),  swampHutMap));
-
+*/
+                    recipes2.add(createCustomTrade(new ItemBuilder(Material.DIAMOND).setAmount(24).build(), new ItemBuilder(Material.COMPASS).setAmount(1).build(), CompassInteractListener.getCompass(villager, CompassInteractListener.StructureAvailable.NETHER_FORTRESS)));
                 }
                 villager.setRecipes(recipes2);
             }
         }.runTaskLater(Main.getInstance(), 10L);
     }
+
+
 
     private ItemStack getExplorerMap(Entity ent, StructureType type){
         if(type == StructureType.NETHER_FORTRESS) {
