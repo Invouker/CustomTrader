@@ -1,37 +1,54 @@
 package sk.xpress.customtrader.handlers;
 
-
-import net.minecraft.server.v1_16_R2.NBTBase;
-import net.minecraft.server.v1_16_R2.NBTTagCompound;
-import net.minecraft.server.v1_16_R2.NBTTagList;
-import net.minecraft.server.v1_16_R2.NBTTagString;
-import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Nbt
-{
-    private static void setNbt_Bool_(@NotNull NBTTagCompound nbt, @NotNull String key, boolean value)
-    {
+public class Nbt {
+
+    private static void setNbt_Bool_(@NotNull NBTTagCompound nbt, @NotNull String key, boolean value) {
         int index = key.indexOf('.');
         if(index == -1)
         {
-            nbt.setBoolean(key, value);
+            nbt.a(key, value);
             return;
         }
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        NBTTagCompound child = nbt.getCompound(k);
+        NBTTagCompound child = nbt.p(k);
         if(child == null)
             child = new NBTTagCompound();
 
         setNbt_Bool_(child, subKey, value);
-        nbt.set(k, child);
+        nbt.a(k, child);
+    }
+
+
+    private static void setNbt_Double_(@NotNull NBTTagCompound nbt, @NotNull String key, double value) {
+        int index = key.indexOf('.');
+        if(index == -1) {
+            nbt.a(key, value);
+            return;
+        }
+
+        String k = key.substring(0, index);
+        String subKey = key.substring(index + 1);
+
+        NBTTagCompound child = nbt.p(k);
+        if(child == null)
+            child = new NBTTagCompound();
+
+        setNbt_Double_(child, subKey, value);
+        nbt.a(k, child);
     }
 
     private static void setNbt_Int_(@NotNull NBTTagCompound nbt, @NotNull String key, int value)
@@ -39,19 +56,19 @@ public class Nbt
         int index = key.indexOf('.');
         if(index == -1)
         {
-            nbt.setInt(key, value);
+            nbt.a(key, value);
             return;
         }
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        NBTTagCompound child = nbt.getCompound(k);
+        NBTTagCompound child = nbt.p(k);
         if(child == null)
             child = new NBTTagCompound();
 
         setNbt_Int_(child, subKey, value);
-        nbt.set(k, child);
+        nbt.a(k, child);
     }
 
     private static void setNbt_Long_(@NotNull NBTTagCompound nbt, @NotNull String key, long value)
@@ -59,19 +76,19 @@ public class Nbt
         int index = key.indexOf('.');
         if(index == -1)
         {
-            nbt.setLong(key, value);
+            nbt.a(key, value);
             return;
         }
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        NBTTagCompound child = nbt.getCompound(k);
+        NBTTagCompound child = nbt.p(k);
         if(child == null)
             child = new NBTTagCompound();
 
         setNbt_Long_(child, subKey, value);
-        nbt.set(k, child);
+        nbt.a(k, child);
     }
 
     private static void setNbt_String_(@NotNull NBTTagCompound nbt, @NotNull String key, String value)
@@ -79,19 +96,19 @@ public class Nbt
         int index = key.indexOf('.');
         if(index == -1)
         {
-            nbt.setString(key, value);
+            nbt.a(key, value);
             return;
         }
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        NBTTagCompound child = nbt.getCompound(k);
+        NBTTagCompound child = nbt.p(k);
         if(child == null)
             child = new NBTTagCompound();
 
         setNbt_String_(child, subKey, value);
-        nbt.set(k, child);
+        nbt.a(k, child);
     }
 
     private static void setNbt_IntArray_(@NotNull NBTTagCompound nbt, @NotNull String key, @NotNull int[] value)
@@ -99,19 +116,19 @@ public class Nbt
         int index = key.indexOf('.');
         if(index == -1)
         {
-            nbt.setIntArray(key, value);
+            nbt.a(key, value);
             return;
         }
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        NBTTagCompound child = nbt.getCompound(k);
+        NBTTagCompound child = nbt.p(k);
         if(child == null)
             child = new NBTTagCompound();
 
         setNbt_IntArray_(child, subKey, value);
-        nbt.set(k, child);
+        nbt.a(k, child);
     }
 
     private static void setNbt_StringArray_(@NotNull NBTTagCompound nbt, @NotNull String key, @NotNull String[] value)
@@ -123,107 +140,122 @@ public class Nbt
             for (String v : value)
                 idsTag.add(NBTTagString.a(v));
 
-            nbt.set(key, idsTag);
+            nbt.a(key, idsTag);
             return;
         }
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        NBTTagCompound child = nbt.getCompound(k);
+        NBTTagCompound child = nbt.p(k);
         if(child == null)
             child = new NBTTagCompound();
 
         setNbt_StringArray_(child, subKey, value);
-        nbt.set(k, child);
+        nbt.a(k, child);
     }
 
     public static ItemStack setNbt_Bool(@NotNull ItemStack is, @NotNull String key, boolean value)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound == null)
                 compound = new NBTTagCompound();
             {
                 setNbt_Bool_(compound, key, value);
             }
-            nms.setTag(compound);
+            nms.a(compound);
         }
         return CraftItemStack.asBukkitCopy(nms);
     }
 
-    public static ItemStack setNbt_Int(@NotNull ItemStack is, @NotNull String key, int value)
+    public static ItemStack setNbt_Double(@NotNull ItemStack is, @NotNull String key, double value)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
+            if (compound == null)
+                compound = new NBTTagCompound();
+            {
+                setNbt_Double_(compound, key, value);
+            }
+            nms.a(compound);
+        }
+        return CraftItemStack.asBukkitCopy(nms);
+    }
+
+    public static ItemStack setNbt_Int(@NotNull ItemStack is, @NotNull String key, int value) {
+
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        {
+            NBTTagCompound compound = nms.s();
             if (compound == null)
                 compound = new NBTTagCompound();
             {
                 setNbt_Int_(compound, key, value);
             }
-            nms.setTag(compound);
+            nms.a(compound);
         }
         return CraftItemStack.asBukkitCopy(nms);
     }
 
     public static ItemStack setNbt_Long(@NotNull ItemStack is, @NotNull String key, long value)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound == null)
                 compound = new NBTTagCompound();
             {
                 setNbt_Long_(compound, key, value);
             }
-            nms.setTag(compound);
+            nms.a(compound);
         }
         return CraftItemStack.asBukkitCopy(nms);
     }
 
     public static ItemStack setNbt_String(@NotNull ItemStack is, @NotNull String key, String value)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound == null)
                 compound = new NBTTagCompound();
             {
                 setNbt_String_(compound, key, value);
             }
-            nms.setTag(compound);
+            nms.a(compound);
         }
         return CraftItemStack.asBukkitCopy(nms);
     }
 
     public static ItemStack setNbt_IntArray(@NotNull ItemStack is, @NotNull String key, @NotNull int[] value)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound == null)
                 compound = new NBTTagCompound();
             {
                 setNbt_IntArray_(compound, key, value);
             }
-            nms.setTag(compound);
+            nms.a(compound);
         }
         return CraftItemStack.asBukkitCopy(nms);
     }
 
     public static ItemStack setNbt_StringArray(@NotNull ItemStack is, @NotNull String key, @NotNull String[] value)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound == null)
                 compound = new NBTTagCompound();
             {
                 setNbt_StringArray_(compound, key, value);
             }
-            nms.setTag(compound);
+            nms.a(compound);
         }
         return CraftItemStack.asBukkitCopy(nms);
     }
@@ -237,13 +269,28 @@ public class Nbt
     {
         int index = key.indexOf('.');
         if(index == -1)
-            return nbt.getBoolean(key);
+            return nbt.b(key);
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        if(nbt.hasKey(k))
-            return getNbt_Bool_(nbt.getCompound(k), subKey, default_);
+        if(nbt.e(k))
+            return getNbt_Bool_(nbt.p(k), subKey, default_);
+        else
+            return default_;
+    }
+
+    private static double getNbt_Double_(@NotNull NBTTagCompound nbt, @NotNull String key, double default_)
+    {
+        int index = key.indexOf('.');
+        if(index == -1)
+            return nbt.k(key);
+
+        String k = key.substring(0, index);
+        String subKey = key.substring(index + 1);
+
+        if(nbt.e(k))
+            return getNbt_Double_(nbt.p(k), subKey, default_);
         else
             return default_;
     }
@@ -252,13 +299,13 @@ public class Nbt
     {
         int index = key.indexOf('.');
         if(index == -1)
-            return nbt.getInt(key);
+            return nbt.h(key);
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        if(nbt.hasKey(k))
-            return getNbt_Int_(nbt.getCompound(k), subKey, default_);
+        if(nbt.e(k))
+            return getNbt_Int_(nbt.p(k), subKey, default_);
         else
             return default_;
     }
@@ -267,13 +314,13 @@ public class Nbt
     {
         int index = key.indexOf('.');
         if(index == -1)
-            return nbt.getLong(key);
+            return nbt.h(key);
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        if(nbt.hasKey(k))
-            return getNbt_Long_(nbt.getCompound(k), subKey, default_);
+        if(nbt.e(k))
+            return getNbt_Long_(nbt.p(k), subKey, default_);
         else
             return default_;
     }
@@ -282,13 +329,13 @@ public class Nbt
     {
         int index = key.indexOf('.');
         if(index == -1)
-            return nbt.getString(key);
+            return nbt.l(key);
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        if(nbt.hasKey(k))
-            return getNbt_String_(nbt.getCompound(k), subKey, default_);
+        if(nbt.e(k))
+            return getNbt_String_(nbt.p(k), subKey, default_);
         else
             return default_;
     }
@@ -297,13 +344,13 @@ public class Nbt
     {
         int index = key.indexOf('.');
         if(index == -1)
-            return nbt.getIntArray(key);
+            return nbt.n(key);
 
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        if(nbt.hasKey(k))
-            return getNbt_IntArray_(nbt.getCompound(k), subKey, default_);
+        if(nbt.e(k))
+            return getNbt_IntArray_(nbt.p(k), subKey, default_);
         else
             return default_;
     }
@@ -313,7 +360,7 @@ public class Nbt
         int index = key.indexOf('.');
         if(index == -1)
         {
-            NBTBase tagListBase = nbt.get(key);
+            NBTBase tagListBase = nbt.c(key);
             if (tagListBase instanceof NBTTagList)
             {
                 NBTTagList tagList = (NBTTagList) tagListBase;
@@ -324,7 +371,7 @@ public class Nbt
                         if (nbtVal == null)
                             list.add(null);
                         else
-                            list.add(nbtVal.asString());
+                            list.add(nbtVal.toString());
                     }
                 }
                 return list.toArray(new String[0]);
@@ -336,17 +383,16 @@ public class Nbt
         String k = key.substring(0, index);
         String subKey = key.substring(index + 1);
 
-        if(nbt.hasKey(k))
-            return getNbt_StringArray_(nbt.getCompound(k), subKey, default_);
+        if(nbt.e(k))
+            return getNbt_StringArray_(nbt.p(k), subKey, default_);
         else
             return default_;
     }
 
-    public static boolean getNbt_Bool(@NotNull ItemStack is, @NotNull String key, boolean default_)
-    {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+    public static boolean getNbt_Bool(@NotNull ItemStack is, @NotNull String key, boolean default_) {
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound != null)
                 return getNbt_Bool_(compound, key, default_);
         }
@@ -354,11 +400,21 @@ public class Nbt
         return default_;
     }
 
-    public static int getNbt_Int(@NotNull ItemStack is, @NotNull String key, int default_)
-    {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+    public static double getNbt_Double(@NotNull ItemStack is, @NotNull String key, double default_) {
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
+            if (compound != null)
+                return getNbt_Double_(compound, key, default_);
+        }
+
+        return default_;
+    }
+
+    public static int getNbt_Int(@NotNull ItemStack is, @NotNull String key, int default_) {
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        {
+            NBTTagCompound compound = nms.s();
             if (compound != null)
                 return getNbt_Int_(compound, key, default_);
         }
@@ -368,9 +424,9 @@ public class Nbt
 
     public static long getNbt_Long(@NotNull ItemStack is, @NotNull String key, long default_)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound != null)
                 return getNbt_Long_(compound, key, default_);
         }
@@ -383,17 +439,17 @@ public class Nbt
         return getNbt_Int(is, key, 0);
     }
 
-    public static String getNbt_String(@NotNull ItemStack is, @NotNull String key, String default_)
-    {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+    public static String getNbt_String(@NotNull ItemStack is, @NotNull String key, String default_) {
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound != null)
                 return getNbt_String_(compound, key, default_);
         }
 
         return default_;
     }
+
 
     public static String getNbt_String(@NotNull ItemStack is, @NotNull String key)
     {
@@ -402,9 +458,9 @@ public class Nbt
 
     public static int[] getNbt_IntArray(@NotNull ItemStack is, @NotNull String key, int[] default_)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound != null)
                 return getNbt_IntArray_(compound, key, default_);
         }
@@ -419,9 +475,9 @@ public class Nbt
 
     public static String[] getNbt_StringArray(@NotNull ItemStack is, @NotNull String key, String[] default_)
     {
-        net.minecraft.server.v1_16_R2.ItemStack nms = CraftItemStack.asNMSCopy(is);
+        net.minecraft.world.item.ItemStack nms = CraftItemStack.asNMSCopy(is);
         {
-            NBTTagCompound compound = nms.getTag();
+            NBTTagCompound compound = nms.s();
             if (compound != null)
                 return getNbt_StringArray_(compound, key, default_);
         }
